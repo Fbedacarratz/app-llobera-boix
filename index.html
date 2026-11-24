@@ -469,13 +469,13 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
 <body>
 <script>try { if (localStorage.getItem('llb_token')) document.body.classList.add('arranca'); } catch (e) {}</script>
 <div id="cargando"></div>
-<div id="splash"><div class="logo"><b>llobera boix<em class="ver">v5.2</em></b><span>& asoc.</span></div><div class="sp-bar"><i></i></div>
+<div id="splash"><div class="logo"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div><div class="sp-bar"><i></i></div>
   <div class="sp-err" id="spErr">Está tardando más de lo normal.<br><button class="btn dark sm" onclick="location.reload()">Reintentar</button> <button class="btn sm" onclick="cerrar(true)">Entrar de nuevo</button></div></div>
 
 <!-- ============ INGRESO / REGISTRO ============ -->
 <section id="login">
   <div class="card">
-    <div class="logo"><b>llobera boix<em class="ver">v5.2</em></b><span>& asoc.</span></div>
+    <div class="logo"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
     <div class="seg" id="lSeg"><button class="on" data-m="entrar">Entrar</button><button data-m="registro">Registrarme</button></div>
     <p class="muted" id="loginSub">Ingresá con tu mail y tu clave.</p>
     <div id="lNomBox" style="display:none"><label>Nombre y apellido</label><input id="lNom" autocomplete="name"></div>
@@ -492,7 +492,7 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
 <!-- ============ APP ============ -->
 <div id="app">
   <aside class="side">
-    <div class="logo" onclick="ir('inicio')" title="Inicio"><b>llobera boix<em class="ver">v5.2</em></b><span>& asoc.</span></div>
+    <div class="logo" onclick="ir('inicio')" title="Inicio"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
     <div id="sideNav"></div>
     <div class="grow"></div>
     <a class="drivebtn" id="driveSide" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Drive · OBRAS 2026</a>
@@ -500,7 +500,7 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
   </aside>
 
   <header class="top">
-    <div class="logo" onclick="ir('inicio')"><b>llobera boix<em class="ver">v5.2</em></b><span>& asoc.</span></div>
+    <div class="logo" onclick="ir('inicio')"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
     <div class="acts"><a class="btn icon" id="driveTop" target="_blank" rel="noopener" aria-label="Drive"></a><button class="ava" id="avaTop" onclick="abrirMas()"></button></div>
   </header>
 
@@ -774,7 +774,7 @@ function bienvenida() {
   cv.innerHTML = '<div class="bv-conf" id="bvConf"></div><div class="bv-card"><div class="logo"><b>llobera boix<em class="ver">v' + v + '</em></b><span>& asoc.</span></div>' +
     '<div class="bv-v">versión ' + v + '</div><h1>¡Bienvenido, ' + esc(nombreYo) + '!</h1>' +
     '<p>Arrancamos la <b>versión ' + v + '</b> de la app del estudio. Gracias por ser parte del equipo de <b>Llobera Boix</b>.</p>' +
-    '<ul><li>Arrancamos de cero: la app está limpia</li><li>Registros: el interno junta todo (notas, cliente y reuniones)</li><li>Documentos: cada exportado es una copia nueva, y se filtran por obra y por persona</li><li>Fotos en obra, cronograma y obra semanal</li></ul>' +
+    '<ul><li>Nota de pedido: <b>Compartir PDF</b> (WhatsApp, mail…) y <b>Descargar PDF</b> directo desde el celu</li><li>Nota de pedido: nuevo campo <b>Gremio que lo pide</b></li><li>Obras: <b>Posibles obras</b>, reuniones con clientes antes de crear la carpeta</li><li>Registros: el interno junta todo (notas, cliente y reuniones)</li></ul>' +
     '<button class="btn dark" id="bvOk">Empezar</button></div>';
   document.body.appendChild(cv);
   var conf = $('bvConf'), colores = ['#d62828', '#1f5fbf', '#f2c200', '#2e9e4f', '#c8a27a', '#1d1d1b', '#8a8a8a'];
@@ -920,7 +920,7 @@ function semana() {
   h += '</div>';
   var ev = S.d.eventos.filter(function (x) { return x.fecha === sel; }).sort(function (a, b) { return (a.hora || '').localeCompare(b.hora || ''); });
   var ta = S.d.tareas.filter(function (x) { return x.fecha === sel && esResp(x, S.d.yo.email); });
-  h += ev.map(function (e) { return '<div class="task" onclick="modalEvento(\'' + e.id + '\')" style="background:var(--blue-t);border-color:transparent"><div class="tx"><div class="tt">' + esc(e.titulo) + '</div><div class="tm">' + (e.hora ? esc(e.hora) + ' · ' : '') + esc(e.obra ? obraNom(e.obra) : 'General') + '</div></div></div>'; }).join('');
+  h += ev.map(function (e) { return '<div class="task" onclick="modalEvento(\'' + e.id + '\')" style="background:var(--blue-t);border-color:transparent"><div class="tx"><div class="tt">' + esc(e.titulo) + '</div><div class="tm">' + (e.hora ? esc(e.hora) + ' · ' : '') + evObra(e) + '</div></div></div>'; }).join('');
   h += ta.length ? '<div style="margin-top:8px">' + lista(ta, false) + '</div>' : (ev.length ? '' : '<div class="empty">Nada para el ' + fmt(sel).slice(0, 5) + '.</div>');
   return h;
 }
@@ -1082,7 +1082,7 @@ function calReuniones() {
 }
 function filaEvento(e) {
   var p = String(e.participantes || '').split(',').filter(String);
-  return '<div class="task" onclick="modalEvento(\'' + e.id + '\')"><div class="hora">' + esc(e.hora || '—') + '</div><div class="tx"><div class="tt">' + esc(e.titulo) + '</div><div class="tm">' + esc(e.obra ? obraNom(e.obra) : 'General') + (e.lugar ? ' · ' + esc(e.lugar) : '') + '</div></div>' +
+  return '<div class="task" onclick="modalEvento(\'' + e.id + '\')"><div class="hora">' + esc(e.hora || '—') + '</div><div class="tx"><div class="tt">' + esc(e.titulo) + '</div><div class="tm">' + evObra(e) + (e.lugar ? ' · ' + esc(e.lugar) : '') + '</div></div>' +
     '<div class="avs">' + p.slice(0, 4).map(function (x) { return '<span class="ava sm" style="background:' + colorPersona(x) + '" title="' + esc(nombre(x)) + '">' + esc(iniciales(nombre(x))) + '</span>'; }).join('') + (p.length > 4 ? '<span class="muted">+' + (p.length - 4) + '</span>' : '') + '</div></div>';
 }
 
@@ -1220,6 +1220,7 @@ function vObras() {
     (puede() ? '<button class="btn" onclick="api(\'sincronizarObras\',S.token).then(function(n){toast(n?n+\' obras nuevas desde el Drive.\':\'No hay obras nuevas en el Drive.\');recargar()})">' + ic('sync', 16) + '<span class="lbl">Traer del Drive</span></button><button class="btn dark" onclick="modalObra()">' + ic('plus', 16) + '<span class="lbl">Obra</span></button>' : '');
   $('vista').innerHTML = cabecera('Obras', 'Son las carpetas de OBRAS 2026 en el Drive. Una obra nueva creada acá arma su carpeta con todas las subcarpetas.', acc) +
     '<div class="filters" style="margin-bottom:14px"><input placeholder="Buscar obra…" value="' + esc(S.filtros.obraQ || '') + '" oninput="S.filtros.obraQ=this.value;clearTimeout(vObras.h);vObras.h=setTimeout(function(){vObras();var i=document.querySelector(\'.filters input\');i.focus();i.setSelectionRange(i.value.length,i.value.length)},250)"></div>' +
+    posiblesHtml() +
     (arr.length ? '<div class="obras">' + arr.map(function (o) {
       var ab = S.d.tareas.filter(function (t) { return t.obra === o.codigo && t.estado !== 'Terminado'; }), av = avanceObra(o.codigo), col = obraColor(o.codigo);
       return '<div class="card obra"><div style="display:flex;justify-content:space-between;align-items:center"><span class="chip" style="color:' + col + ';background:#f6f6f4">' + esc(o.estado || 'Activa') + '</span>' + (o.carpeta ? '<a class="btn icon" title="Carpeta en Drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/' + esc(o.carpeta) + '">' + ic('drive', 16) + '</a>' : '') + '</div>' +
@@ -1228,6 +1229,14 @@ function vObras() {
         '<div class="bar" style="margin:12px 0"><i style="width:' + (av || 0) + '%;background:' + col + '"></i></div>' +
         '<div class="acts"><button class="btn dark sm" onclick="S.obraSel=\'' + esc(o.codigo) + '\';S.crono=\'obra\';ir(\'cronogramas\')">Cronograma</button>' + (puede() ? '<button class="btn sm" onclick="modalObra(\'' + esc(o.codigo) + '\')">Editar</button>' : '') + '</div></div>';
     }).join('') + '</div>' : '<div class="empty">No hay obras que coincidan.</div>');
+}
+
+function posiblesHtml() {
+  var ps = posiblesPendientes();
+  return '<div class="card" style="margin-bottom:16px"><div class="ch">' + ic('cal') + '<h2>Posibles obras</h2>' + (ps.length ? '<span class="badge">' + ps.length + '</span>' : '') + '<div class="acts"><button class="btn sm" onclick="modalEvento(null,null,true)">' + ic('plus', 14) + 'Reunión por posible obra</button></div></div>' +
+    (ps.length ? ps.map(function (x) { var e = x.e;
+      return '<div class="task" onclick="modalEvento(\'' + e.id + '\')"><div class="tx"><div class="tt">' + esc(e.posibleObra) + '</div><div class="tm">' + (e.posibleCliente ? esc(e.posibleCliente) + ' · ' : '') + 'última reunión ' + esc(fmt(e.fecha).slice(0, 5)) + (x.n > 1 ? ' · ' + x.n + ' reuniones' : '') + ' · sin carpeta todavía</div></div></div>'; }).join('')
+      : '<div class="muted">Encuentros con clientes que todavía no confirmaron. No crean carpeta: si aceptan, desde la reunión tocás <b>Se aceptó: crear la obra</b>.</div>') + '</div>';
 }
 
 /* ---------- DESARROLLOS ---------- */
@@ -1439,6 +1448,7 @@ var DOC_CAMPOS = {
   np: [
     ['obra', 'Obra', 'obra'], ['fecha', 'Fecha', 'date'],
     ['solicitadoPor', 'Solicitado por', 'text', 'yo'], ['proveedor', 'Proveedor', 'prov'],
+    ['pedidoPor', 'Gremio que lo pide', 'pedido'],
     ['entrega', 'Entrega requerida', 'date'], ['sector', 'Sector', 'text', '', 'Ej. Baño planta alta'],
     ['items', 'Materiales', 'tabla', [['detalle', 'Material / detalle (marca, modelo, medida)', 3], ['unidad', 'Unidad', 1], ['cantidad', 'Cantidad', 1]], 3],
     ['observaciones', 'Observaciones / condiciones de entrega', 'area'],
@@ -1544,6 +1554,7 @@ function docForm() {
     else if (tipo === 'area') h += '<textarea data-k="' + k + '" rows="3">' + esc(val) + '</textarea>';
     else if (tipo === 'date' || tipo === 'date0') h += '<input data-k="' + k + '" type="date" value="' + esc(val) + '">';
     else if (tipo === 'prov') h += '<div class="busca"><input data-k="' + k + '" id="dcProv" value="' + esc(val) + '" autocomplete="off"><div class="busca-l" id="dcProvL"></div></div>';
+    else if (tipo === 'pedido') h += '<div class="busca"><input data-k="' + k + '" id="dcPed" value="' + esc(val) + '" autocomplete="off" placeholder="Escribí para buscar (gremio o proveedor)"><div class="busca-l" id="dcPedL"></div></div>';
     else if (tipo === 'gremio') h += '<input data-k="' + k + '" list="dcGremios" value="' + esc(val) + '" placeholder="Ej. Albañilería"><datalist id="dcGremios">' + (S.d.listas.gremios || []).map(function (g) { return '<option value="' + esc(g) + '">'; }).join('') + '</datalist>';
     else if (tipo === 'total') h += '<div style="display:flex;gap:6px"><input data-k="' + k + '" value="' + esc(val) + '" inputmode="decimal" placeholder="Ej. 1.250.000"><button type="button" class="btn sm" onclick="docSumar()">Sumar ítems</button></div>';
     else h += '<input data-k="' + k + '" value="' + esc(val) + '"' + (c[4] ? ' placeholder="' + esc(c[4]) + '"' : '') + '>';
@@ -1554,6 +1565,9 @@ function docForm() {
   $('vista').innerHTML = h;
   Array.prototype.forEach.call(document.querySelectorAll('.dc-form textarea'), function (ta) { ajustarAlto(ta); });
   if ($('dcProv')) buscador($('dcProv'), $('dcProvL'), function () { return S.d.proveedores; });
+  if ($('dcPed')) buscador($('dcPed'), $('dcPedL'), function () {
+    var vistos = {}; return (S.d.listas.gremios || []).concat(S.d.proveedores || []).filter(function (n) { var k = String(n).toLowerCase(); if (vistos[k]) return false; vistos[k] = 1; return true; });
+  }, true);
   $('vista').querySelector('.dc-form').addEventListener('input', docGuardarBorrador);
   $('vista').querySelector('.dc-form').addEventListener('change', function (e) {
     if (e.target.dataset && e.target.dataset.k === 'obra' && f.tipo === 'presupuesto') {
@@ -1618,7 +1632,7 @@ function docExportar(formato) {
   f.datos = d;
   srv('documentoExportar', f.tipo, Object.assign({}, d, { idCliente: f.id ? null : f.idCliente }), formato, f.id).then(function (r) {
     var borrador = docBorradorClave(f);
-    f.id = r.id; f.numero = r.numero; f.borrador = false; f.resultado = r;
+    f.id = r.id; f.numero = r.numero; f.borrador = false; f.resultado = r; S.dc.archivo = null;
     try { localStorage.removeItem(borrador); localStorage.removeItem('llb_doc_' + f.tipo); } catch (e) {}
     if (S.dc.info && f.tipo === 'np' && +r.numero >= S.dc.info.siguienteNP) S.dc.info.siguienteNP = +r.numero + 1;
     if (S.vista === 'documentos' && S.dc.form === f) { docForm(); $('dcRes').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
@@ -1630,14 +1644,52 @@ function docExportar(formato) {
   });
 }
 function docMostrarRes(r) {
-  $('dcRes').innerHTML = '<div class="rg-msg ok">✓ <b>' + esc(r.nombre) + '</b><div class="rg-doc"><a class="btn sm" href="' + esc(r.doc) + '" target="_blank" rel="noopener">' + ic('doc', 14) + 'Abrir en Docs</a>' +
+  $('dcRes').innerHTML = '<div class="rg-msg ok">✓ <b>' + esc(r.nombre) + '</b><div class="rg-doc"><button class="btn dark" id="dcShare">' + ic('ext', 16) + 'Compartir PDF</button><button class="btn" id="dcBajar">Descargar PDF</button>' +
+    '<a class="btn sm" href="' + esc(r.doc) + '" target="_blank" rel="noopener">' + ic('doc', 14) + 'Abrir en Docs</a>' +
     (r.pdf ? '<a class="btn sm" href="' + esc(r.pdf) + '" target="_blank" rel="noopener">' + ic('ext', 14) + 'Abrir PDF</a>' : '') +
     '<button class="btn sm dark" id="dcPdfDocs">PDF desde Docs (con retoques)</button><button class="btn sm" onclick="S.dc.form=null;docNuevo(\'' + S.dc.form.tipo + '\')">Hacer otro</button></div>' +
     '<div class="muted" style="margin-top:6px">¿Lo retocaste a mano en Docs? Tocá <b>PDF desde Docs</b>: sale el PDF tal cual quedó. Los botones de abajo hacen una <b>copia nueva</b> (v2, v3…) con lo de este formulario; las anteriores no se tocan.</div></div>';
+  $('dcShare').onclick = function () { docCompartir(this, true); };
+  $('dcBajar').onclick = function () { docCompartir(this, false); };
   $('dcPdfDocs').onclick = function () {
     var b = this; if (b.disabled) return; b.disabled = true; b.textContent = 'Exportando…';
     srv('documentoPdf', S.dc.form.id).then(function (x) { S.dc.form.resultado = x; docMostrarRes(x); toast('PDF listo.'); }, function (e) { toast(e.message); b.disabled = false; b.textContent = 'PDF desde Docs (con retoques)'; });
   };
+}
+/* Compartir (menú del celu: WhatsApp, Mail, Drive…) o descargar el PDF del documento.
+ * El menú de compartir necesita un toque reciente: si el PDF tardó en llegar, se pide tocar de nuevo. */
+function docCompartir(b, compartir) {
+  var f = S.dc.form; if (!f || !f.id || b.disabled) return;
+  var cache = S.dc.archivo && S.dc.archivo.id === f.id && S.dc.archivo.pdf === (f.resultado && f.resultado.pdf) ? S.dc.archivo : null;
+  var txt = b.innerHTML;
+  var usar = function (a) {
+    var file = a.file;
+    if (compartir && navigator.canShare && navigator.canShare({ files: [file] })) {
+      return navigator.share({ files: [file], title: file.name }).catch(function (e) {
+        if (e && e.name === 'NotAllowedError') { b.innerHTML = ic('ext', 16) + 'Listo: tocá para compartir'; }
+        else if (!e || e.name !== 'AbortError') bajarArchivo(file);
+      });
+    }
+    if (compartir) toast('Este navegador no deja compartir archivos: se descarga.');
+    bajarArchivo(file);
+  };
+  if (cache) return usar(cache);
+  b.disabled = true; b.innerHTML = 'Preparando…';
+  srv('documentoArchivo', f.id).then(function (x) {
+    var bin = atob(x.b64), u8 = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    var file = new File([u8], x.nombre, { type: 'application/pdf' });
+    if (f.resultado && !f.resultado.pdf) f.resultado.pdf = x.pdf;
+    S.dc.archivo = { id: f.id, pdf: f.resultado ? f.resultado.pdf : x.pdf, file: file };
+    b.disabled = false; b.innerHTML = txt;
+    usar(S.dc.archivo);
+  }, function (e) { b.disabled = false; b.innerHTML = txt; toast(e.message); });
+}
+function bajarArchivo(file) {
+  var url = URL.createObjectURL(file), a = document.createElement('a');
+  a.href = url; a.download = file.name; document.body.appendChild(a); a.click();
+  setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 4000);
+  toast('PDF descargado: ' + file.name);
 }
 function modalComputo() {
   abrirModal('<div class="eyebrow">PLANILLA DE CÓMPUTO</div><p class="muted">Se abre la planilla de cómputo de la obra (la primera vez se copia de la planilla base del estudio) en 10 - DOCUMENTOS / PLANILLA DE COMPUTO.</p>' +
@@ -2070,26 +2122,68 @@ function leerImagen(file) {
   });
 }
 
-function modalEvento(id, fecha) {
-  var e = id ? S.d.eventos.find(function (x) { return x.id === id; }) : { fecha: fecha || hoyISO(), participantes: S.d.yo.email };
+function modalEvento(id, fecha, posible) {
+  var e = id ? S.d.eventos.find(function (x) { return x.id === id; }) : { fecha: fecha || hoyISO(), participantes: S.d.yo.email, posibleObra: posible ? ' ' : '' };
   var edita = !id || e.creadoPor === S.d.yo.email || puede(), dis = edita ? '' : ' disabled', idCliente = uid();
-  var part = String(e.participantes || '').split(',').filter(String);
-  abrirModal('<div class="eyebrow">' + (id ? 'REUNIÓN' : 'NUEVA REUNIÓN') + '</div><div class="form2">' +
-    '<div class="full"><label>Tema</label><input id="eTit" value="' + esc(e.titulo) + '"' + dis + ' placeholder="Ej. Reunión de obra con el cliente"></div>' +
+  var part = String(e.participantes || '').split(',').filter(String), esPos = !!e.posibleObra, est = e.posibleEstado || '';
+  var nomPos = String(e.posibleObra || '').trim();
+  abrirModal('<div class="eyebrow">' + (id ? (esPos ? 'REUNIÓN · POSIBLE OBRA' : 'REUNIÓN') : 'NUEVA REUNIÓN') + '</div>' +
+    (id && esPos ? '<div class="rg-msg ' + (est === 'Aceptada' ? 'ok' : '') + '" style="margin-bottom:12px">' + (est === 'Aceptada' ? '✓ Se aceptó: la obra <b>' + esc(obraNom(e.obra)) + '</b> ya tiene su carpeta en OBRAS 2026.' : est === 'No se hizo' ? 'Marcada como <b>no se hizo</b>. No se creó carpeta.' : 'Todavía <b>sin carpeta</b>. Si el cliente acepta, tocá <b>Se aceptó: crear la obra</b>.') + '</div>' : '') +
+    '<div class="form2">' +
+    '<div class="full"><label>Tema</label><input id="eTit" value="' + esc(e.titulo) + '"' + dis + ' placeholder="' + (esPos ? 'Ej. Primera reunión con el cliente' : 'Ej. Reunión de obra con el cliente') + '"></div>' +
     '<div><label>Fecha</label><input id="eFecha" type="date" value="' + esc(e.fecha) + '"' + dis + '></div>' +
     '<div><label>Hora</label><input id="eHora" type="time" value="' + esc(e.hora) + '"' + dis + '></div>' +
-    '<div><label>Obra</label><select id="eObra"' + dis + '>' + optsObras(e.obra, 'General') + '</select></div>' +
-    '<div><label>Lugar</label><input id="eLug" value="' + esc(e.lugar) + '"' + dis + ' placeholder="Estudio, obra, Meet…"></div>' +
+    (est === 'Aceptada' ? '' : '<label class="full ev-pos" style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="ePos"' + (esPos ? ' checked' : '') + dis + ' style="width:auto"><span>Es por una <b>posible obra nueva</b> (todavía sin carpeta)</span></label>') +
+    '<div id="eObraW"' + (esPos ? ' style="display:none"' : '') + '><label>Obra</label><select id="eObra"' + dis + '>' + optsObras(e.obra, 'General') + '</select></div>' +
+    '<div><label>' + (esPos ? 'Dirección / lugar' : 'Lugar') + '</label><input id="eLug" value="' + esc(e.lugar) + '"' + dis + ' placeholder="Estudio, obra, Meet, dirección…"></div>' +
+    '<div class="full" id="ePosW"' + (esPos ? '' : ' style="display:none"') + '><div class="form2">' +
+      '<div class="full"><label>Nombre de la posible obra</label><input id="ePNom" value="' + esc(nomPos) + '"' + dis + ' placeholder="Ej. CASA PÉREZ o LAPRIDA 550"></div>' +
+      '<div><label>Cliente</label><input id="ePCli" value="' + esc(e.posibleCliente) + '"' + dis + '></div>' +
+      '<div><label>Contacto <span class="muted">(tel. o mail)</span></label><input id="ePCon" value="' + esc(e.posibleContacto) + '"' + dis + '></div>' +
+      '<div class="full"><label>Notas <span class="muted">(qué quiere, presupuesto, cómo llegó…)</span></label><textarea id="ePNot" rows="3"' + dis + '>' + esc(e.posibleNotas) + '</textarea></div>' +
+    '</div></div>' +
     '<div class="full"><label>Quiénes van</label><div class="pick" id="ePart">' + S.d.usuarios.map(function (u) { return '<button type="button" class="pk' + (part.indexOf(u.email) >= 0 ? ' on' : '') + '" data-e="' + esc(u.email) + '"' + dis + '><span class="ava sm" style="background:' + colorPersona(u.email) + '">' + esc(iniciales(u.nombre || u.email)) + '</span>' + esc(u.nombre || u.email) + '</button>'; }).join('') + '</div></div></div>' +
     (id ? '<p class="muted">Cargada por ' + esc(nombre(e.creadoPor)) + '</p>' : '') +
-    pie((edita ? '<button class="btn dark" id="eG">Guardar</button>' : '') + (id && edita ? '<button class="btn" id="eB">Borrar</button>' : '')));
+    pie((edita ? '<button class="btn dark" id="eG">Guardar</button>' : '') +
+      (id && esPos && est !== 'Aceptada' && puede() ? '<button class="btn dark" id="eAcep">Se aceptó: crear la obra</button>' + (est !== 'No se hizo' ? '<button class="btn" id="eDesc">No se hizo</button>' : '') : '') +
+      (id && edita ? '<button class="btn" id="eB">Borrar</button>' : '')));
   Array.prototype.forEach.call($('ePart').querySelectorAll('.pk'), function (b) { b.onclick = function () { b.classList.toggle('on'); }; });
-  if ($('eG')) $('eG').onclick = function () {
-    if (!ocupar(this)) return;
-    var p = Array.prototype.map.call($('ePart').querySelectorAll('.pk.on'), function (b) { return b.dataset.e; });
-    api('guardarEvento', S.token, { id: id, idCliente: id ? null : idCliente, titulo: v('eTit'), fecha: v('eFecha'), hora: v('eHora'), obra: v('eObra'), lugar: v('eLug'), participantes: p }).then(function () { guardado(); });
+  if ($('ePos')) $('ePos').onchange = function () { $('ePosW').style.display = this.checked ? '' : 'none'; $('eObraW').style.display = this.checked ? 'none' : ''; };
+  var datos = function () {
+    var conPos = est === 'Aceptada' || ($('ePos') && $('ePos').checked);
+    return { id: id, idCliente: id ? null : idCliente, titulo: v('eTit'), fecha: v('eFecha'), hora: v('eHora'), obra: conPos ? '' : v('eObra'), lugar: v('eLug'),
+      participantes: Array.prototype.map.call($('ePart').querySelectorAll('.pk.on'), function (b) { return b.dataset.e; }),
+      posible: conPos ? { nombre: v('ePNom'), cliente: v('ePCli'), contacto: v('ePCon'), notas: v('ePNot') } : null };
   };
+  if ($('eG')) $('eG').onclick = function () {
+    var d = datos(); if (d.posible && !d.posible.nombre.trim()) return toast('Poné un nombre para la posible obra.');
+    if (!ocupar(this)) return;
+    api('guardarEvento', S.token, d).then(function () { guardado(); });
+  };
+  if ($('eAcep')) $('eAcep').onclick = function () {
+    var nom = String(v('ePNom') || nomPos).trim().toUpperCase();
+    var ok = window.prompt('Se va a crear la carpeta en OBRAS 2026 con todas las subcarpetas, y las reuniones de esta posible obra pasan a la obra.\n\nNombre de la carpeta:', nom);
+    if (ok === null || !ok.trim()) return;
+    if (!ocupar(this)) return;
+    var d = datos();
+    api('guardarEvento', S.token, d).then(function () { return api('aceptarPosibleObra', S.token, id, ok.trim()); })
+      .then(function (r) { guardado('Obra creada: carpeta ' + ok.trim().toUpperCase() + ' en OBRAS 2026.'); });
+  };
+  if ($('eDesc')) $('eDesc').onclick = function () { if (window.confirm('¿Marcar que esta obra no se hizo? No se crea carpeta (la reunión queda en el calendario).') && ocupar(this)) api('descartarPosibleObra', S.token, id).then(function () { guardado('Listo.'); }); };
   if ($('eB')) $('eB').onclick = function () { if (window.confirm('¿Borrar esta reunión?') && ocupar(this)) api('borrarEvento', S.token, id).then(function () { guardado('Reunión borrada.'); }); };
+}
+/* Texto de "a qué obra es" una reunión (obra real, posible obra o general) */
+function evObra(e) {
+  if (e.posibleObra && e.posibleEstado !== 'Aceptada') return '<span class="chip t-yel" style="font-size:10px;padding:1px 6px">POSIBLE</span> ' + esc(e.posibleObra) + (e.posibleEstado === 'No se hizo' ? ' (no se hizo)' : '');
+  return esc(e.obra ? obraNom(e.obra) : 'General');
+}
+/* Posibles obras pendientes (una por nombre, con su última reunión) */
+function posiblesPendientes() {
+  var vistas = {}, out = [];
+  S.d.eventos.filter(function (e) { return e.posibleObra && (e.posibleEstado || 'Pendiente') === 'Pendiente'; })
+    .sort(function (a, b) { return (b.fecha + (b.hora || '')).localeCompare(a.fecha + (a.hora || '')); })
+    .forEach(function (e) { var k = e.posibleObra.toLowerCase(); if (vistas[k]) { vistas[k].n++; return; } vistas[k] = { e: e, n: 1 }; out.push(vistas[k]); });
+  return out;
 }
 
 function modalEtapa(id) {
@@ -2110,7 +2204,7 @@ function modalEtapa(id) {
   if ($('cB')) $('cB').onclick = function () { if (window.confirm('¿Borrar esta etapa?') && ocupar(this)) api('borrarEtapa', S.token, id).then(function () { guardado('Etapa borrada.'); }); };
 }
 /* buscador que filtra mientras escribís */
-function buscador(input, caja, listaFn) {
+function buscador(input, caja, listaFn, nuevoTxt) {
   if (!input || input.disabled) return;
   function sinTilde(x) { return String(x).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   function mostrar() {
@@ -2118,7 +2212,7 @@ function buscador(input, caja, listaFn) {
     var res = l.filter(function (n) { return !q || sinTilde(n).indexOf(q) >= 0; }).sort(function (a, b) { return (sinTilde(a).indexOf(q) !== 0) - (sinTilde(b).indexOf(q) !== 0) || a.localeCompare(b); }).slice(0, 40);
     var exacto = l.some(function (n) { return sinTilde(n) === q; });
     caja.innerHTML = res.map(function (n) { return '<div class="op">' + esc(n) + '</div>'; }).join('') +
-      (q && !exacto ? '<div class="op nuevo">+ Sumar «' + esc(input.value.trim()) + '» como proveedor nuevo</div>' : '') +
+      (q && !exacto ? '<div class="op nuevo">' + (nuevoTxt ? 'Dejar «' + esc(input.value.trim()) + '» escrito así' : '+ Sumar «' + esc(input.value.trim()) + '» como proveedor nuevo') + '</div>' : '') +
       (!res.length && !q ? '<div class="op vacio">Sin proveedores</div>' : '');
     caja.style.display = 'block';
     Array.prototype.forEach.call(caja.querySelectorAll('.op'), function (o) {
