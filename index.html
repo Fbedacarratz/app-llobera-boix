@@ -315,7 +315,11 @@ ul.items{margin:6px 0 0 18px;padding:0;font-size:12px}
 .chk input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--dark);flex:none;padding:0}
 .chk b{color:var(--ink)}
 .rg-nota .tt{white-space:normal}
-.rg-nota .tm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rg-nota .tm{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.list{grid-template-columns:minmax(0,1fr)}.list>*{min-width:0}
+.rg-ed,.rg-ed textarea,#rgResultado,#rgEditor{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word;white-space:normal}
+.rg-nota .del{border:1px solid var(--line);background:#fff;border-radius:10px;color:var(--muted);cursor:pointer;width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center}
+.rg-nota .del:hover{color:var(--red);border-color:var(--red)}
 
 /* ---------- v5 ---------- */
 /* que nada estire la página a lo ancho (registros, links largos) */
@@ -398,6 +402,11 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
 .dc-tab textarea{min-height:40px}
 .dc-tab .x{border:1px solid var(--line);background:#fff;border-radius:10px;color:var(--muted);font-size:16px;cursor:pointer;height:38px;width:38px}
 .dc-bar{position:sticky;bottom:0;background:var(--bg);padding:12px 0;margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);z-index:4}
+.dc-ia{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.dc-share{display:flex;width:100%;justify-content:center;padding:16px;font-size:15px;margin:12px 0 6px;border-radius:14px}
+.dc-mas{border-top:1px solid var(--line);margin-top:14px}
+.dc-mas summary{cursor:pointer;font-weight:700;font-size:12px;padding:12px 0;color:var(--ink2)}
+.dc-comp{display:grid;gap:8px}.dc-comp .btn{justify-content:center;padding:14px;font-size:14px}
 .dc-num{font-size:12px;font-weight:700;background:var(--g7);border-radius:100px;padding:6px 12px;display:inline-block}
 .ayuda{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:14px}
 .ayuda div{background:var(--g8);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;color:var(--g2)}
@@ -469,13 +478,13 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
 <body>
 <script>try { if (localStorage.getItem('llb_token')) document.body.classList.add('arranca'); } catch (e) {}</script>
 <div id="cargando"></div>
-<div id="splash"><div class="logo"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div><div class="sp-bar"><i></i></div>
+<div id="splash"><div class="logo"><b>llobera boix<em class="ver">v5.4</em></b><span>& asoc.</span></div><div class="sp-bar"><i></i></div>
   <div class="sp-err" id="spErr">Está tardando más de lo normal.<br><button class="btn dark sm" onclick="location.reload()">Reintentar</button> <button class="btn sm" onclick="cerrar(true)">Entrar de nuevo</button></div></div>
 
 <!-- ============ INGRESO / REGISTRO ============ -->
 <section id="login">
   <div class="card">
-    <div class="logo"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
+    <div class="logo"><b>llobera boix<em class="ver">v5.4</em></b><span>& asoc.</span></div>
     <div class="seg" id="lSeg"><button class="on" data-m="entrar">Entrar</button><button data-m="registro">Registrarme</button></div>
     <p class="muted" id="loginSub">Ingresá con tu mail y tu clave.</p>
     <div id="lNomBox" style="display:none"><label>Nombre y apellido</label><input id="lNom" autocomplete="name"></div>
@@ -492,7 +501,7 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
 <!-- ============ APP ============ -->
 <div id="app">
   <aside class="side">
-    <div class="logo" onclick="ir('inicio')" title="Inicio"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
+    <div class="logo" onclick="ir('inicio')" title="Inicio"><b>llobera boix<em class="ver">v5.4</em></b><span>& asoc.</span></div>
     <div id="sideNav"></div>
     <div class="grow"></div>
     <a class="drivebtn" id="driveSide" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Drive · OBRAS 2026</a>
@@ -500,7 +509,7 @@ body.arranca #login,body.arranca #app,body.arranca #tabbar{display:none!importan
   </aside>
 
   <header class="top">
-    <div class="logo" onclick="ir('inicio')"><b>llobera boix<em class="ver">v5.3</em></b><span>& asoc.</span></div>
+    <div class="logo" onclick="ir('inicio')"><b>llobera boix<em class="ver">v5.4</em></b><span>& asoc.</span></div>
     <div class="acts"><a class="btn icon" id="driveTop" target="_blank" rel="noopener" aria-label="Drive"></a><button class="ava" id="avaTop" onclick="abrirMas()"></button></div>
   </header>
 
@@ -547,6 +556,7 @@ var IC = {
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   up: '<path d="M12 19V6M6 12l6-6 6 6"/>',
   ext: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5H5V6h5"/>',
+  share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
   helmet: '<path d="M4 16a8 8 0 0 1 16 0"/><path d="M3 16h18v3H3zM10 8V5h4v3"/>'
 };
 function ic(n, s) { return '<svg class="i" viewBox="0 0 24 24"' + (s ? ' style="width:' + s + 'px;height:' + s + 'px"' : '') + '>' + IC[n] + '</svg>'; }
@@ -774,7 +784,7 @@ function bienvenida() {
   cv.innerHTML = '<div class="bv-conf" id="bvConf"></div><div class="bv-card"><div class="logo"><b>llobera boix<em class="ver">v' + v + '</em></b><span>& asoc.</span></div>' +
     '<div class="bv-v">versión ' + v + '</div><h1>¡Bienvenido, ' + esc(nombreYo) + '!</h1>' +
     '<p>Arrancamos la <b>versión ' + v + '</b> de la app del estudio. Gracias por ser parte del equipo de <b>Llobera Boix</b>.</p>' +
-    '<ul><li>Nota de pedido: <b>Compartir PDF</b> (WhatsApp, mail…) y <b>Descargar PDF</b> directo desde el celu</li><li>Nota de pedido: nuevo campo <b>Gremio que lo pide</b></li><li>Obras: <b>Posibles obras</b>, reuniones con clientes antes de crear la carpeta</li><li>Registros: el interno junta todo (notas, cliente y reuniones)</li></ul>' +
+    '<ul><li>Nota de pedido: un solo botón <b>Compartir</b> que funciona en todos los celus</li><li>Nota de pedido: <b>texto completo</b> y <b>leer un PDF o foto</b> que se pasa solo a ítems. Cada vez que generás, sale la <b>nota siguiente</b></li><li>Presupuesto: nombre <b>FECHA_TÍTULO_RUBRO</b>, total automático, sin versiones</li><li>Registros: se pueden <b>borrar notas</b>. Listas en orden alfabético</li><li>En el celu: <b>Documentos</b> en la barra de abajo</li></ul>' +
     '<button class="btn dark" id="bvOk">Empezar</button></div>';
   document.body.appendChild(cv);
   var conf = $('bvConf'), colores = ['#d62828', '#1f5fbf', '#f2c200', '#2e9e4f', '#c8a27a', '#1d1d1b', '#8a8a8a'];
@@ -825,7 +835,7 @@ function pintarNav() {
     return '<button class="navi' + (v[0] === S.vista ? ' on' : '') + '" onclick="ir(\'' + v[0] + '\')">' + ic(v[2]) + esc(v[1]) + badge(v[0]) + '</button>';
   }).join('');
   // barra del celular: 4 accesos + Más
-  var tabs = ['mis', puede() ? 'asignar' : 'cronogramas', 'fotos', 'registros'];
+  var tabs = ['documentos', puede() ? 'asignar' : 'cronogramas', 'fotos', 'registros'];
   var enMas = visibles().filter(function (v) { return tabs.indexOf(v[0]) < 0; }).map(function (v) { return v[0]; });
   var pendMas = pendientes().length;
   $('tabbar').innerHTML = tabs.map(function (k) {
@@ -1438,7 +1448,7 @@ function chatPintarConv() {
  * Van a la carpeta 10 - DOCUMENTOS de la obra. Lo que se va escribiendo queda guardado en el celular.
  */
 var DOC_TIPOS = {
-  np: { t: 'Nota de pedido', d: 'Pedido de materiales a un proveedor. Numeración única del estudio.', c: 'green', ic: 'doc' },
+  np: { t: 'Nota de pedido', d: 'Pedido de materiales a un proveedor. Numeración única del estudio. Se comparte desde el celu.', c: 'green', ic: 'doc' },
   presupuesto: { t: 'Presupuesto', d: 'Propuesta económica para el cliente, por gremio.', c: 'blue', ic: 'doc' },
   memo: { t: 'Memo de reunión', d: 'Memo de obra de 2 hojas: temas, trabajos, planos, decisiones y acciones.', c: 'yel', ic: 'doc' },
   computo: { t: 'Planilla de cómputo', d: 'La planilla base de cómputo de la obra, en Sheets. Exporta a PDF.', c: 'brown', ic: 'crono' }
@@ -1447,17 +1457,19 @@ var DOC_PROX = ['Orden de trabajo', 'Orden de compra', 'Recibo de pago', 'Recibo
 var DOC_CAMPOS = {
   np: [
     ['obra', 'Obra', 'obra'], ['fecha', 'Fecha', 'date'],
-    ['solicitadoPor', 'Solicitado por', 'text', 'yo'], ['proveedor', 'Proveedor', 'prov'],
-    ['pedidoPor', 'Gremio que lo pide', 'pedido'],
-    ['entrega', 'Entrega requerida', 'date'], ['sector', 'Sector', 'text', '', 'Ej. Baño planta alta'],
-    ['items', 'Materiales', 'tabla', [['detalle', 'Material / detalle (marca, modelo, medida)', 3], ['unidad', 'Unidad', 1], ['cantidad', 'Cantidad', 1]], 3],
+    ['proveedor', 'Proveedor', 'prov'], ['pedidoPor', 'Gremio que lo pide', 'pedido'],
+    ['sector', 'Sector', 'text', '', 'Ej. Baño planta alta'], ['entrega', 'Entrega requerida', 'date'],
+    ['texto', 'Texto completo del pedido', 'texto'],
+    ['items', 'Materiales', 'tabla', [['detalle', 'Material / detalle (marca, modelo, medida)', 3], ['unidad', 'Unidad', 1], ['cantidad', 'Cantidad', 1]], 2],
     ['observaciones', 'Observaciones / condiciones de entrega', 'area'],
-    ['solicito', 'Solicitó', 'text', 'yo'], ['aprobo', 'Aprobó', 'text'],
-    ['recibio', 'Recibió', 'text'], ['fechaRecibido', 'Fecha de recibido', 'date0'], ['remito', 'Remito', 'text']
+    ['solicitadoPor', 'Solicitado por', 'text', 'yo', '', 'extra'],
+    ['solicito', 'Solicitó', 'text', 'yo', '', 'extra'], ['aprobo', 'Aprobó', 'text', '', '', 'extra'],
+    ['recibio', 'Recibió', 'text', '', '', 'extra'], ['fechaRecibido', 'Fecha de recibido', 'date0', '', '', 'extra'], ['remito', 'Remito', 'text', '', '', 'extra']
   ],
   presupuesto: [
     ['obra', 'Obra', 'obra'], ['fecha', 'Fecha', 'date'],
-    ['cliente', 'Cliente', 'text', 'cliente'], ['gremio', 'Gremio / rubro', 'gremio'],
+    ['titulo', 'Título (qué se va a hacer)', 'text', '', 'Ej. Cambio de pisos del baño'],
+    ['cliente', 'Cliente', 'text', 'cliente'], ['gremio', 'Rubro / gremio', 'gremio'],
     ['numero', 'Presupuesto Nº', 'text', '', 'Automático'],
     ['alcance', 'Alcance de la propuesta (un punto por línea)', 'area'],
     ['items', 'Costo', 'tabla', [['concepto', 'Concepto', 3], ['importe', 'Importe $', 1]], 2],
@@ -1535,48 +1547,79 @@ function docDefault(c, f) {
   if (tipo === 'date') return hoyISO();
   return def || '';
 }
+function esCelu() { return !!(window.matchMedia && window.matchMedia('(max-width:900px)').matches); }
 function docForm() {
-  var f = S.dc.form, campos = DOC_CAMPOS[f.tipo], t = DOC_TIPOS[f.tipo], d = f.datos;
-  var num = f.tipo === 'np' ? (f.numero ? 'NP Nº ' + f.numero : 'NP Nº ' + (S.dc.info ? S.dc.info.siguienteNP : '…') + ' (se confirma al exportar)') : (f.numero ? 'Nº ' + f.numero : '');
-  var h = cabecera(t.t, f.id ? 'Editando el documento. Al exportar se actualiza el mismo archivo.' : 'Completá lo que haga falta: lo vacío sale con líneas para completar a mano.', '<button class="btn" onclick="docVolver()">' + ic('left', 16) + 'Volver</button>');
-  h += '<div class="card dc-form">' + (num ? '<span class="dc-num">' + esc(num) + '</span>' : '') + (f.borrador ? ' <span class="muted">Recuperado lo que habías escrito. <a href="#" onclick="docVaciar();return false">Empezar de cero</a></span>' : '') + '<div class="form2">';
+  var f = S.dc.form, campos = DOC_CAMPOS[f.tipo], t = DOC_TIPOS[f.tipo], d = f.datos, np = f.tipo === 'np', celu = esCelu();
+  var prox = S.dc.info ? S.dc.info.siguienteNP : '…';
+  var num = np ? (f.resultado ? 'NP Nº ' + f.numero : 'NP Nº ' + prox + ' (se confirma al generar)') : (f.numero ? 'Nº ' + f.numero : '');
+  var sub = np ? 'Cada vez que generás sale una nota nueva con el número siguiente.'
+    : f.tipo === 'presupuesto' ? 'Se guarda como FECHA_TÍTULO_RUBRO. Mismo título y rubro el mismo día: se reemplaza. Otro día: archivo nuevo.'
+    : f.id ? 'Editando el documento. Al exportar sale una copia nueva.' : 'Completá lo que haga falta: lo vacío sale con líneas para completar a mano.';
+  var h = cabecera(t.t, sub, '<button class="btn" onclick="docVolver()">' + ic('left', 16) + 'Volver</button>');
+  h += '<div class="card dc-form' + (np ? ' dc-np' : '') + '">' + (num ? '<span class="dc-num">' + esc(num) + '</span>' : '') + (f.borrador ? ' <span class="muted">Recuperado lo que habías escrito. <a href="#" onclick="docVaciar();return false">Empezar de cero</a></span>' : '') + '<div class="form2">';
+  var extra = '';
   campos.forEach(function (c) {
-    var k = c[0], tipo = c[2], val = d[k] !== undefined ? d[k] : docDefault(c, f);
+    var k = c[0], tipo = c[2], val = d[k] !== undefined ? d[k] : docDefault(c, f), x = '';
     if (tipo === 'tabla') {
-      var filas = Array.isArray(val) && val.length ? val : [];
+      var filas = Array.isArray(d[k]) && d[k].length ? d[k].slice() : [];
       while (filas.length < c[4]) filas.push({});
-      h += '<div class="full"><h3>' + esc(c[1]) + '</h3><div class="dc-filas" data-t="' + k + '">' + filas.map(function (r) { return docFila(c, r); }).join('') + '</div><button type="button" class="rg-mas" onclick="docFilaMas(\'' + k + '\')">+ Agregar fila</button></div>';
-      return;
+      if (Object.keys(filas[filas.length - 1]).some(function (q) { return filas[filas.length - 1][q]; })) filas.push({});   // siempre una fila vacía al final
+      x = '<div class="full"><h3>' + esc(c[1]) + '</h3><div class="dc-filas" data-t="' + k + '">' + filas.map(function (r) { return docFila(c, r); }).join('') + '</div>' +
+        '<div class="muted" style="font-size:11px;margin-top:2px">Al completar la última fila aparece otra sola.</div></div>';
+    } else {
+      var full = tipo === 'area' || tipo === 'obra' || tipo === 'texto' || /alcance|aclaraciones|firma|notaIva|planosRubros|titulo/.test(k);
+      x = '<div' + (full ? ' class="full"' : '') + '><label>' + esc(c[1]) + '</label>';
+      if (tipo === 'obra') x += '<select data-k="obra">' + optsObras(val, 'Elegí la obra') + '</select>';
+      else if (tipo === 'area') x += '<textarea data-k="' + k + '" rows="3">' + esc(val) + '</textarea>';
+      else if (tipo === 'texto') x += '<textarea data-k="' + k + '" id="dcTexto" rows="3" placeholder="Escribí o pegá el pedido completo. Al pegarlo se separa solo en ítems.">' + esc(val) + '</textarea>' +
+        '<div class="dc-ia"><button type="button" class="btn sm" id="dcAItems">' + ic('spark', 14) + 'Pasar a ítems</button><label class="btn sm" for="dcArch" style="margin:0">' + ic('up', 14) + 'Leer PDF o foto de una nota</label>' +
+        '<input id="dcArch" type="file" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" hidden><span class="muted" id="dcIaEst"></span></div>';
+      else if (tipo === 'date' || tipo === 'date0') x += '<input data-k="' + k + '" type="date" value="' + esc(val) + '">';
+      else if (tipo === 'prov') x += '<div class="busca"><input data-k="' + k + '" id="dcProv" value="' + esc(val) + '" autocomplete="off"><div class="busca-l" id="dcProvL"></div></div>';
+      else if (tipo === 'pedido') x += '<div class="busca"><input data-k="' + k + '" id="dcPed" value="' + esc(val) + '" autocomplete="off" placeholder="Escribí para buscar (gremio o proveedor)"><div class="busca-l" id="dcPedL"></div></div>';
+      else if (tipo === 'gremio') x += '<input data-k="' + k + '" list="dcGremios" value="' + esc(val) + '" placeholder="Ej. Albañilería"><datalist id="dcGremios">' + (S.d.listas.gremios || []).map(function (g) { return '<option value="' + esc(g) + '">'; }).join('') + '</datalist>';
+      else if (tipo === 'total') x += '<input data-k="' + k + '" value="' + esc(val) + '" inputmode="decimal" placeholder="Se calcula solo con los ítems">';
+      else x += '<input data-k="' + k + '" value="' + esc(val) + '"' + (c[4] ? ' placeholder="' + esc(c[4]) + '"' : '') + '>';
+      x += '</div>';
     }
-    var full = tipo === 'area' || tipo === 'obra' || /alcance|aclaraciones|firma|notaIva|planosRubros/.test(k);
-    h += '<div' + (full ? ' class="full"' : '') + '><label>' + esc(c[1]) + '</label>';
-    if (tipo === 'obra') h += '<select data-k="obra">' + optsObras(val, 'Elegí la obra') + '</select>';
-    else if (tipo === 'area') h += '<textarea data-k="' + k + '" rows="3">' + esc(val) + '</textarea>';
-    else if (tipo === 'date' || tipo === 'date0') h += '<input data-k="' + k + '" type="date" value="' + esc(val) + '">';
-    else if (tipo === 'prov') h += '<div class="busca"><input data-k="' + k + '" id="dcProv" value="' + esc(val) + '" autocomplete="off"><div class="busca-l" id="dcProvL"></div></div>';
-    else if (tipo === 'pedido') h += '<div class="busca"><input data-k="' + k + '" id="dcPed" value="' + esc(val) + '" autocomplete="off" placeholder="Escribí para buscar (gremio o proveedor)"><div class="busca-l" id="dcPedL"></div></div>';
-    else if (tipo === 'gremio') h += '<input data-k="' + k + '" list="dcGremios" value="' + esc(val) + '" placeholder="Ej. Albañilería"><datalist id="dcGremios">' + (S.d.listas.gremios || []).map(function (g) { return '<option value="' + esc(g) + '">'; }).join('') + '</datalist>';
-    else if (tipo === 'total') h += '<div style="display:flex;gap:6px"><input data-k="' + k + '" value="' + esc(val) + '" inputmode="decimal" placeholder="Ej. 1.250.000"><button type="button" class="btn sm" onclick="docSumar()">Sumar ítems</button></div>';
-    else h += '<input data-k="' + k + '" value="' + esc(val) + '"' + (c[4] ? ' placeholder="' + esc(c[4]) + '"' : '') + '>';
-    h += '</div>';
+    if (np && c[5] === 'extra') extra += x; else h += x;
   });
-  h += '</div><div id="dcRes"></div><div class="dc-bar"><button class="btn dark" id="dcDoc">' + ic('doc', 16) + 'Exportar a Docs</button><button class="btn dark" id="dcPdf">' + ic('ext', 16) + 'Exportar a PDF</button>' +
-    (f.id ? '<button class="btn" onclick="docVolver()">Listo</button>' : '') + '</div></div>';
+  if (extra) h += '<details class="full dc-mas"' + (celu ? '' : ' open') + '><summary>Más datos (solicitó, aprobó, recibido, remito)</summary><div class="form2">' + extra + '</div></details>';
+  var botones = np
+    ? '<button class="btn dark" id="dcPdf">' + ic('doc', 16) + 'Generar nota de pedido</button>' + (celu ? '' : '<button class="btn" id="dcDoc">Solo Docs</button>')
+    : '<button class="btn dark" id="dcDoc">' + ic('doc', 16) + 'Exportar a Docs</button><button class="btn dark" id="dcPdf">' + ic('ext', 16) + 'Exportar a PDF</button>';
+  h += '</div><div id="dcRes"></div><div class="dc-bar">' + botones + (f.resultado && !np ? '<button class="btn" onclick="docVolver()">Listo</button>' : '') + '</div></div>';
   $('vista').innerHTML = h;
   Array.prototype.forEach.call(document.querySelectorAll('.dc-form textarea'), function (ta) { ajustarAlto(ta); });
   if ($('dcProv')) buscador($('dcProv'), $('dcProvL'), function () { return S.d.proveedores; });
   if ($('dcPed')) buscador($('dcPed'), $('dcPedL'), function () {
-    var vistos = {}; return (S.d.listas.gremios || []).concat(S.d.proveedores || []).filter(function (n) { var k = String(n).toLowerCase(); if (vistos[k]) return false; vistos[k] = 1; return true; });
+    var vistos = {}; return (S.d.listas.gremios || []).concat(S.d.proveedores || []).filter(function (n) { var k = String(n).toLowerCase(); if (vistos[k]) return false; vistos[k] = 1; return true; })
+      .sort(function (a, b) { return String(a).localeCompare(String(b), 'es', { sensitivity: 'base' }); });
   }, true);
-  $('vista').querySelector('.dc-form').addEventListener('input', docGuardarBorrador);
-  $('vista').querySelector('.dc-form').addEventListener('change', function (e) {
+  var form = $('vista').querySelector('.dc-form');
+  form.addEventListener('input', function (e) {
+    if (e.target.dataset && e.target.dataset.c) { docFilaAuto(e.target); if (e.target.dataset.c === 'importe') docSumar(); }
+    docGuardarBorrador();
+  });
+  form.addEventListener('change', function (e) {
     if (e.target.dataset && e.target.dataset.k === 'obra' && f.tipo === 'presupuesto') {
       var cli = document.querySelector('[data-k=cliente]'), o = S.d.obras.find(function (x) { return x.codigo === e.target.value; });
       if (cli && !cli.value && o && o.cliente) cli.value = o.cliente;
     }
     docGuardarBorrador();
   });
-  $('dcDoc').onclick = function () { docExportar('doc'); };
+  if ($('dcTexto')) {
+    $('dcTexto').addEventListener('paste', function () { setTimeout(function () { docAItems({ texto: $('dcTexto').value }); }, 60); });
+    $('dcAItems').onclick = function () { docAItems({ texto: $('dcTexto').value }); };
+    $('dcArch').onchange = function (e) {
+      var file = (e.target.files || [])[0]; e.target.value = '';
+      if (!file) return;
+      if (file.size > 10 * 1048576) return toast('El archivo es muy pesado (máximo 10 MB).');
+      var mime = file.type || (/\.pdf$/i.test(file.name) ? 'application/pdf' : 'image/jpeg');
+      leerB64(file).then(function (b64) { docAItems({ b64: b64, mime: mime, nombre: file.name }); }, function () { toast('No se pudo leer el archivo.'); });
+    };
+  }
+  if ($('dcDoc')) $('dcDoc').onclick = function () { docExportar('doc'); };
   $('dcPdf').onclick = function () { docExportar('pdf'); };
   if (f.resultado) docMostrarRes(f.resultado);
 }
@@ -1584,13 +1627,49 @@ function ajustarAlto(ta) { var fn = function () { ta.style.height = 'auto'; ta.s
 function docFila(c, r) {
   return '<div class="dc-row" style="--cols:' + c[3].map(function (x) { return x[2] + 'fr'; }).join(' ') + '">' + c[3].map(function (col) {
     return '<input data-c="' + col[0] + '" value="' + esc(r[col[0]] || '') + '" placeholder="' + esc(col[1]) + '"' + (col[0] === 'importe' || col[0] === 'cantidad' ? ' inputmode="decimal"' : '') + '>';
-  }).join('') + '<button type="button" class="x" onclick="this.parentNode.remove();docGuardarBorrador()" aria-label="Quitar">×</button></div>';
+  }).join('') + '<button type="button" class="x" onclick="docQuitarFila(this)" aria-label="Quitar">×</button></div>';
 }
-function docFilaMas(k) {
+/* Ítems automáticos: cuando escribís en la última fila aparece una nueva vacía abajo. */
+function docFilaAuto(input) {
+  var row = input.closest('.dc-row'), cont = row && row.parentNode;
+  if (!cont || row !== cont.lastElementChild || !String(input.value).trim()) return;
+  var c = DOC_CAMPOS[S.dc.form.tipo].find(function (x) { return x[0] === cont.dataset.t; });
+  if (c) cont.insertAdjacentHTML('beforeend', docFila(c, {}));
+}
+function docQuitarFila(b) {
+  var row = b.parentNode, cont = row.parentNode;
+  row.remove();
+  var ult = cont.lastElementChild, vacia = ult && !Array.prototype.some.call(ult.querySelectorAll('input'), function (i) { return i.value.trim(); });
+  if (!vacia) { var c = DOC_CAMPOS[S.dc.form.tipo].find(function (x) { return x[0] === cont.dataset.t; }); if (c) cont.insertAdjacentHTML('beforeend', docFila(c, {})); }
+  docSumar(); docGuardarBorrador();
+}
+function docPonerFilas(k, lista) {
   var c = DOC_CAMPOS[S.dc.form.tipo].find(function (x) { return x[0] === k; });
   var cont = document.querySelector('.dc-filas[data-t="' + k + '"]');
-  cont.insertAdjacentHTML('beforeend', docFila(c, {}));
-  var ins = cont.lastElementChild.querySelector('input'); if (ins) ins.focus();
+  if (!c || !cont) return;
+  // se sacan las filas vacías, se agregan las nuevas y queda una vacía al final
+  Array.prototype.forEach.call(cont.querySelectorAll('.dc-row'), function (row) { if (!Array.prototype.some.call(row.querySelectorAll('input'), function (i) { return i.value.trim(); })) row.remove(); });
+  cont.insertAdjacentHTML('beforeend', lista.map(function (r) { return docFila(c, r); }).join('') + docFila(c, {}));
+}
+/* Nota de pedido: texto pegado, PDF o foto → ítems (Gemini) */
+function docAItems(entrada) {
+  if (!entrada.b64 && !String(entrada.texto || '').trim()) { toast('Escribí o pegá el pedido primero.'); return; }
+  if (S.dc.iaAndando) return;
+  S.dc.iaAndando = true;
+  var est = $('dcIaEst'), f = S.dc.form;
+  if (est) est.textContent = entrada.b64 ? 'Leyendo la nota…' : 'Separando en ítems…';
+  srv('npAItems', entrada).then(function (r) {
+    if (S.dc.form !== f || !$('dcTexto')) return;
+    if (!r.items.length) { toast('No encontré materiales para pasar a ítems.'); return; }
+    docPonerFilas('items', r.items);
+    if (entrada.b64 && r.texto && !$('dcTexto').value.trim()) { $('dcTexto').value = r.texto; $('dcTexto').dispatchEvent(new Event('input')); }
+    var prov = document.querySelector('[data-k=proveedor]'), obs = document.querySelector('[data-k=observaciones]');
+    if (prov && !prov.value && r.proveedor) prov.value = r.proveedor;
+    if (obs && !obs.value && r.observaciones) { obs.value = r.observaciones; obs.dispatchEvent(new Event('input')); }
+    docGuardarBorrador();
+    toast(r.items.length + (r.items.length === 1 ? ' ítem cargado' : ' ítems cargados') + '. Revisalos antes de generar.');
+    var t = document.querySelector('.dc-filas[data-t=items]'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, function (e) { toast('No se pudo pasar a ítems: ' + e.message); }).then(function () { S.dc.iaAndando = false; if ($('dcIaEst')) $('dcIaEst').textContent = ''; });
 }
 function docLeer() {
   var f = S.dc.form, d = {};
@@ -1608,11 +1687,12 @@ function docGuardarBorrador() {
   try { localStorage.setItem(docBorradorClave(f), JSON.stringify(f.datos)); } catch (e) {}
 }
 function numeroAR(s) { s = String(s || '').replace(/[^\d,.-]/g, ''); if (/,\d{1,2}$/.test(s)) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/[.,](?=\d{3}(\D|$))/g, ''); var n = parseFloat(s); return isNaN(n) ? 0 : n; }
+/* Total del presupuesto: se calcula solo cada vez que cambia un importe. */
 function docSumar() {
-  var tot = 0;
-  Array.prototype.forEach.call(document.querySelectorAll('.dc-filas [data-c=importe]'), function (i) { tot += numeroAR(i.value); });
-  var el = document.querySelector('[data-k=total]');
-  if (el) { el.value = tot.toLocaleString('es-AR', { minimumFractionDigits: tot % 1 ? 2 : 0, maximumFractionDigits: 2 }); docGuardarBorrador(); }
+  var el = document.querySelector('[data-k=total]'); if (!el) return;
+  var tot = 0, hay = false;
+  Array.prototype.forEach.call(document.querySelectorAll('.dc-filas [data-c=importe]'), function (i) { if (i.value.trim()) { hay = true; tot += numeroAR(i.value); } });
+  if (hay) el.value = tot.toLocaleString('es-AR', { minimumFractionDigits: tot % 1 ? 2 : 0, maximumFractionDigits: 2 });
 }
 function docVaciar() {
   var f = S.dc.form;
@@ -1624,72 +1704,134 @@ function docVolver() { S.dc.form = null; vDocs(); window.scrollTo(0, 0); }
 function docExportar(formato) {
   var f = S.dc.form, d = docLeer();
   if (!d.obra) return toast('Elegí la obra.');
-  if (f.tipo === 'presupuesto' && !String(d.gremio || '').trim()) return toast('Completá el gremio (va en el nombre del archivo).');
-  var b1 = $('dcDoc'), b2 = $('dcPdf');
-  if (b1.disabled) return;
-  b1.disabled = b2.disabled = true;
-  (formato === 'pdf' ? b2 : b1).innerHTML = 'Generando…';
+  if (f.tipo === 'presupuesto' && !String(d.titulo || '').trim()) return toast('Completá el título (qué se va a hacer): va en el nombre del archivo.');
+  if (f.tipo === 'presupuesto' && !String(d.gremio || '').trim()) return toast('Completá el rubro (va en el nombre del archivo).');
+  var b1 = $('dcDoc'), b2 = $('dcPdf'), b = formato === 'pdf' ? b2 : b1;
+  if (b.disabled) return;
+  if (b1) b1.disabled = true; b2.disabled = true;
+  b.innerHTML = 'Generando…';
   f.datos = d;
-  srv('documentoExportar', f.tipo, Object.assign({}, d, { idCliente: f.id ? null : f.idCliente }), formato, f.id).then(function (r) {
+  // la nota de pedido siempre es nueva (número siguiente): un id de envío por cada vez que se toca
+  if (f.tipo === 'np' && (!f.idCliente || f.resultado)) f.idCliente = uid();
+  srv('documentoExportar', f.tipo, Object.assign({}, d, { idCliente: f.tipo === 'np' || !f.id ? f.idCliente : null }), formato, f.tipo === 'np' ? null : f.id).then(function (r) {
     var borrador = docBorradorClave(f);
     f.id = r.id; f.numero = r.numero; f.borrador = false; f.resultado = r; S.dc.archivo = null;
     try { localStorage.removeItem(borrador); localStorage.removeItem('llb_doc_' + f.tipo); } catch (e) {}
     if (S.dc.info && f.tipo === 'np' && +r.numero >= S.dc.info.siguienteNP) S.dc.info.siguienteNP = +r.numero + 1;
     if (S.vista === 'documentos' && S.dc.form === f) { docForm(); $('dcRes').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    toast(formato === 'pdf' ? 'PDF listo.' : 'Documento listo en Docs.');
+    toast(f.tipo === 'np' ? 'Nota de pedido Nº ' + r.numero + ' lista.' : formato === 'pdf' ? 'PDF listo.' : 'Documento listo en Docs.');
   }, function (e) {
     toast('No se pudo generar: ' + e.message);
   }).then(function () {
-    if ($('dcDoc')) { $('dcDoc').disabled = $('dcPdf').disabled = false; $('dcDoc').innerHTML = ic('doc', 16) + 'Exportar a Docs'; $('dcPdf').innerHTML = ic('ext', 16) + 'Exportar a PDF'; }
+    // si falló (o la pantalla no se volvió a armar), los botones vuelven a su estado
+    if ($('dcPdf') && $('dcPdf').disabled) {
+      $('dcPdf').disabled = false; if ($('dcDoc')) $('dcDoc').disabled = false;
+      if (f.tipo === 'np') { $('dcPdf').innerHTML = ic('doc', 16) + 'Generar nota de pedido'; if ($('dcDoc')) $('dcDoc').innerHTML = 'Solo Docs'; }
+      else { $('dcPdf').innerHTML = ic('ext', 16) + 'Exportar a PDF'; $('dcDoc').innerHTML = ic('doc', 16) + 'Exportar a Docs'; }
+    }
   });
 }
 function docMostrarRes(r) {
-  $('dcRes').innerHTML = '<div class="rg-msg ok">✓ <b>' + esc(r.nombre) + '</b><div class="rg-doc"><button class="btn dark" id="dcShare">' + ic('ext', 16) + 'Compartir PDF</button><button class="btn" id="dcBajar">Descargar PDF</button>' +
-    '<a class="btn sm" href="' + esc(r.doc) + '" target="_blank" rel="noopener">' + ic('doc', 14) + 'Abrir en Docs</a>' +
-    (r.pdf ? '<a class="btn sm" href="' + esc(r.pdf) + '" target="_blank" rel="noopener">' + ic('ext', 14) + 'Abrir PDF</a>' : '') +
-    '<button class="btn sm dark" id="dcPdfDocs">PDF desde Docs (con retoques)</button><button class="btn sm" onclick="S.dc.form=null;docNuevo(\'' + S.dc.form.tipo + '\')">Hacer otro</button></div>' +
-    '<div class="muted" style="margin-top:6px">¿Lo retocaste a mano en Docs? Tocá <b>PDF desde Docs</b>: sale el PDF tal cual quedó. Los botones de abajo hacen una <b>copia nueva</b> (v2, v3…) con lo de este formulario; las anteriores no se tocan.</div></div>';
-  $('dcShare').onclick = function () { docCompartir(this, true); };
-  $('dcBajar').onclick = function () { docCompartir(this, false); };
-  $('dcPdfDocs').onclick = function () {
+  var f = S.dc.form, np = f.tipo === 'np', celu = esCelu();
+  if (np) {
+    $('dcRes').innerHTML = '<div class="rg-msg ok dc-ok">✓ <b>' + esc(r.nombre) + '</b>' +
+      '<button class="btn dark dc-share" id="dcShare">' + ic('share', 20) + 'Compartir</button>' +
+      '<div class="rg-doc">' + (r.pdf ? '<a class="btn sm" href="' + esc(r.pdf) + '" target="_blank" rel="noopener">' + ic('ext', 14) + 'Ver PDF</a>' : '') +
+      '<a class="btn sm" href="' + esc(r.doc) + '" target="_blank" rel="noopener">' + ic('doc', 14) + 'Abrir en Docs</a>' +
+      (celu ? '' : '<button class="btn sm" id="dcPdfDocs">PDF desde Docs (con retoques)</button>') +
+      '<button class="btn sm" onclick="S.dc.form=null;docNuevo(\'np\')">Hacer otra nota</button></div>' +
+      '<div class="muted" style="margin-top:6px">Si cambiás algo y tocás <b>Generar</b> de nuevo, sale otra nota con el número siguiente.</div></div>';
+    $('dcShare').onclick = function () { docCompartir(this); };
+    docPrepararArchivo();
+  } else {
+    $('dcRes').innerHTML = '<div class="rg-msg ok">✓ <b>' + esc(r.nombre) + '</b><div class="rg-doc">' +
+      '<a class="btn sm" href="' + esc(r.doc) + '" target="_blank" rel="noopener">' + ic('doc', 14) + 'Abrir en Docs</a>' +
+      (r.pdf ? '<a class="btn sm" href="' + esc(r.pdf) + '" target="_blank" rel="noopener">' + ic('ext', 14) + 'Abrir PDF</a>' : '') +
+      '<button class="btn sm dark" id="dcPdfDocs">PDF desde Docs (con retoques)</button><button class="btn sm" onclick="S.dc.form=null;docNuevo(\'' + f.tipo + '\')">Hacer otro</button></div>' +
+      '<div class="muted" style="margin-top:6px">¿Lo retocaste a mano en Docs? Tocá <b>PDF desde Docs</b>: sale el PDF tal cual quedó.' + (f.tipo === 'presupuesto' ? ' Si exportás de nuevo hoy con el mismo título, <b>se reemplaza</b>; otro día sale un archivo nuevo.' : '') + '</div></div>';
+  }
+  if ($('dcPdfDocs')) $('dcPdfDocs').onclick = function () {
     var b = this; if (b.disabled) return; b.disabled = true; b.textContent = 'Exportando…';
-    srv('documentoPdf', S.dc.form.id).then(function (x) { S.dc.form.resultado = x; docMostrarRes(x); toast('PDF listo.'); }, function (e) { toast(e.message); b.disabled = false; b.textContent = 'PDF desde Docs (con retoques)'; });
+    srv('documentoPdf', S.dc.form.id).then(function (x) { S.dc.form.resultado = Object.assign({}, S.dc.form.resultado, x); S.dc.archivo = null; docMostrarRes(S.dc.form.resultado); toast('PDF listo.'); }, function (e) { toast(e.message); b.disabled = false; b.textContent = 'PDF desde Docs (con retoques)'; });
   };
 }
-/* Compartir (menú del celu: WhatsApp, Mail, Drive…) o descargar el PDF del documento.
- * El menú de compartir necesita un toque reciente: si el PDF tardó en llegar, se pide tocar de nuevo. */
-function docCompartir(b, compartir) {
+
+/* ---------- Compartir la nota de pedido ----------
+ * Un solo botón: abre el menú de compartir del celu (WhatsApp, Gmail, Drive…).
+ * Nunca usa archivos "blob:" (en Android viejo, como el Galaxy A2, dan "Sólo se pueden descargar URL http o https").
+ * 1) Si el navegador comparte archivos: va el PDF adjunto.
+ * 2) Si no, comparte el link https del PDF (se abre sin cuenta).
+ * 3) Si no hay menú de compartir (o lo bloquea el link de Google): opciones propias WhatsApp / Mail / Copiar / Abrir.
+ * El PDF se prepara apenas se genera la nota, así el toque abre el menú enseguida (el celu exige un toque reciente). */
+function compartirArchivos() {
+  try { return !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], 'x.pdf', { type: 'application/pdf' })] })); } catch (e) { return false; }
+}
+function docPrepararArchivo() {
+  var f = S.dc.form; if (!f || !f.id) return Promise.resolve(null);
+  var a = S.dc.archivo;
+  if (a && a.id === f.id && a.pdf === (f.resultado && f.resultado.pdfId)) return a.prom;
+  var conArchivo = compartirArchivos();
+  a = S.dc.archivo = { id: f.id, pdf: f.resultado && f.resultado.pdfId, listo: false };
+  a.prom = srv('documentoArchivo', f.id, !conArchivo).then(function (x) {
+    a.nombre = x.nombre; a.link = x.pdf; a.descarga = x.descarga;
+    if (x.b64) {
+      try {
+        var bin = atob(x.b64), u8 = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+        a.file = new File([u8], x.nombre + (/\.pdf$/i.test(x.nombre) ? '' : '.pdf'), { type: 'application/pdf' });
+      } catch (e) { a.file = null; }
+    }
+    a.listo = true;
+    return a;
+  }, function (e) { if (S.dc.archivo === a) S.dc.archivo = null; throw e; });
+  a.prom.catch(function () {});
+  return a.prom;
+}
+function docCompartir(b) {
   var f = S.dc.form; if (!f || !f.id || b.disabled) return;
-  var cache = S.dc.archivo && S.dc.archivo.id === f.id && S.dc.archivo.pdf === (f.resultado && f.resultado.pdf) ? S.dc.archivo : null;
+  var a = S.dc.archivo;
+  if (a && a.listo && a.id === f.id) return compartirYa(a, f);
   var txt = b.innerHTML;
-  var usar = function (a) {
-    var file = a.file;
-    if (compartir && navigator.canShare && navigator.canShare({ files: [file] })) {
-      return navigator.share({ files: [file], title: file.name }).catch(function (e) {
-        if (e && e.name === 'NotAllowedError') { b.innerHTML = ic('ext', 16) + 'Listo: tocá para compartir'; }
-        else if (!e || e.name !== 'AbortError') bajarArchivo(file);
+  b.disabled = true; b.innerHTML = 'Preparando…';
+  docPrepararArchivo().then(function (x) {
+    b.disabled = false;
+    // pasó tiempo desde el toque: el celu pide tocar otra vez para abrir el menú
+    b.innerHTML = ic('share', 20) + 'Listo: tocá para compartir';
+    if (!navigator.share) { b.innerHTML = txt; compartirYa(x, f); }
+  }, function (e) { b.disabled = false; b.innerHTML = txt; toast('No se pudo preparar el PDF: ' + e.message); });
+}
+function compartirYa(a, f) {
+  var titulo = a.nombre || ('Nota de pedido ' + f.numero);
+  var texto = titulo + ' · Llobera Boix & Asoc.';
+  var plan = function () { compartirPropio(a, titulo, texto); };
+  try {
+    if (a.file && navigator.share && compartirArchivos()) {
+      return navigator.share({ files: [a.file], title: titulo, text: texto }).catch(function (e) {
+        if (e && e.name === 'AbortError') return;                          // lo cerró ella
+        if (navigator.share) return navigator.share({ title: titulo, text: texto, url: a.link }).catch(function (e2) { if (!e2 || e2.name !== 'AbortError') plan(); });
+        plan();
       });
     }
-    if (compartir) toast('Este navegador no deja compartir archivos: se descarga.');
-    bajarArchivo(file);
-  };
-  if (cache) return usar(cache);
-  b.disabled = true; b.innerHTML = 'Preparando…';
-  srv('documentoArchivo', f.id).then(function (x) {
-    var bin = atob(x.b64), u8 = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
-    var file = new File([u8], x.nombre, { type: 'application/pdf' });
-    if (f.resultado && !f.resultado.pdf) f.resultado.pdf = x.pdf;
-    S.dc.archivo = { id: f.id, pdf: f.resultado ? f.resultado.pdf : x.pdf, file: file };
-    b.disabled = false; b.innerHTML = txt;
-    usar(S.dc.archivo);
-  }, function (e) { b.disabled = false; b.innerHTML = txt; toast(e.message); });
+    if (navigator.share && a.link) {
+      return navigator.share({ title: titulo, text: texto, url: a.link }).catch(function (e) { if (!e || e.name !== 'AbortError') plan(); });
+    }
+  } catch (e) { /* sigue con las opciones propias */ }
+  plan();
 }
-function bajarArchivo(file) {
-  var url = URL.createObjectURL(file), a = document.createElement('a');
-  a.href = url; a.download = file.name; document.body.appendChild(a); a.click();
-  setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 4000);
-  toast('PDF descargado: ' + file.name);
+function compartirPropio(a, titulo, texto) {
+  var link = a.link || '', msj = texto + '\n' + link;
+  abrirModal('<div class="eyebrow">COMPARTIR</div><h2 style="margin:6px 0 14px;font-size:16px">' + esc(titulo) + '</h2><div class="dc-comp">' +
+    '<a class="btn dark" href="https://wa.me/?text=' + encodeURIComponent(msj) + '" target="_blank" rel="noopener">WhatsApp</a>' +
+    '<a class="btn" href="mailto:?subject=' + encodeURIComponent(titulo) + '&body=' + encodeURIComponent(msj) + '">Mail</a>' +
+    '<button class="btn" id="dcCopiar">Copiar link</button>' +
+    (link ? '<a class="btn" href="' + esc(link) + '" target="_blank" rel="noopener">Ver PDF</a>' : '') +
+    (a.descarga ? '<a class="btn" href="' + esc(a.descarga) + '" target="_blank" rel="noopener">Descargar PDF</a>' : '') +
+    '</div>' + pie(''));
+  $('dcCopiar').onclick = function () {
+    var ok = function () { toast('Link copiado.'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(ok, function () { window.prompt('Copiá el link:', link); });
+    else window.prompt('Copiá el link:', link);
+  };
 }
 function modalComputo() {
   abrirModal('<div class="eyebrow">PLANILLA DE CÓMPUTO</div><p class="muted">Se abre la planilla de cómputo de la obra (la primera vez se copia de la planilla base del estudio) en 10 - DOCUMENTOS / PLANILLA DE COMPUTO.</p>' +
@@ -1931,9 +2073,9 @@ function vFotos() {
     '<label>Carpeta</label><div class="fo-dest">' + DESTINOS_FOTO.map(function (d) { return '<button type="button" data-d="' + d + '" class="' + (F.sub === d ? 'on' : '') + '">' + d + '</button>'; }).join('') + '</div>' +
     '<label>Fecha para el nombre</label><input id="foFecha" type="date" value="' + esc(F.fecha) + '">' +
     '<div class="fo-big"><label class="btn dark" for="foGal">' + ic('up', 18) + 'Elegir de la galería</label><label class="btn" for="foCam">' + ic('camara', 18) + 'Sacar foto</label></div>' +
-    '<p class="acts" style="margin:10px 0 0"><label class="btn sm" for="foVid" style="margin:0">Grabar video</label><a class="btn sm" id="foVer" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/' + esc(o.carpeta) + '">' + ic('drive', 14) + 'Ver carpeta</a></p>' +
-    '<p class="muted" style="margin:8px 0 0;font-size:12px">La app sube el archivo tal cual, sin achicarlo. Si el video sale con poca calidad es el navegador del celu el que lo comprime: grabalo con la cámara del celu y subilo con <b>Elegir de la galería</b> (en iPhone, si sigue bajo, elegilo desde <b>Archivos</b>).</p>' +
-    '<input id="foGal" type="file" accept="image/*,video/*" multiple hidden><input id="foCam" type="file" accept="image/*" capture="environment" hidden><input id="foVid" type="file" accept="video/*" capture="environment" hidden>' +
+    '<p class="acts" style="margin:10px 0 0"><label class="btn sm" for="foArch" style="margin:0">' + ic('up', 14) + 'Buscar en archivos</label><label class="btn sm" for="foVid" style="margin:0">Grabar video</label><a class="btn sm" id="foVer" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/' + esc(o.carpeta) + '">' + ic('drive', 14) + 'Ver carpeta</a></p>' +
+    '<p class="muted" style="margin:8px 0 0;font-size:12px">La app sube el archivo tal cual, sin achicarlo. Si el video sale con poca calidad es el navegador del celu el que lo comprime: grabalo con la cámara del celu y subilo con <b>Elegir de la galería</b>. Si el celu solo te ofrece la cámara, usá <b>Buscar en archivos</b> → Galería o Imágenes.</p>' +
+    '<input id="foGal" type="file" accept="image/*,video/*,.jpg,.jpeg,.png,.heic,.heif,.webp,.mp4,.mov,.3gp" multiple hidden><input id="foArch" type="file" multiple hidden><input id="foCam" type="file" accept="image/*" capture="environment" hidden><input id="foVid" type="file" accept="video/*" capture="environment" hidden>' +
     '<p class="muted" style="line-height:1.6;margin:14px 0 0">Quedan como <b>' + esc(cod) + ' - ' + esc(F.fecha) + ' - 01.jpg</b>, 02, 03… en <b>06 - FOTOS / ' + esc(F.sub) + '</b>.<br>Podés seguir usando la app mientras sube. Si se corta la señal, sigue sola cuando vuelve; si se cierra la app, sigue al abrirla de nuevo.</p></div>' +
     '<div class="card c5"><div class="ch">' + ic('up') + '<h2>Subidas</h2><span class="muted" id="foCont"></span><div class="acts" id="foAcc"></div></div><div id="foLista"></div></div></div>';
   $('vista').innerHTML = h;
@@ -1942,10 +2084,13 @@ function vFotos() {
   $('foObra').onchange = function () { F.obra = this.value; pref(); vFotos(); };
   $('foFecha').onchange = function () { F.fecha = this.value || hoyISO(); vFotos(); };
   Array.prototype.forEach.call(document.querySelectorAll('.fo-dest button'), function (b) { b.onclick = function () { F.sub = b.dataset.d; pref(); vFotos(); }; });
-  ['foGal', 'foCam', 'foVid'].forEach(function (id) {
+  ['foGal', 'foCam', 'foVid', 'foArch'].forEach(function (id) {
     $(id).onchange = function (e) {
       var files = Array.prototype.slice.call(e.target.files || []);
       e.target.value = '';
+      var antes = files.length;
+      files = files.filter(function (x) { return /^(image|video)\//.test(x.type || '') || /\.(jpe?g|png|heic|heif|webp|gif|mp4|mov|3gp|m4v|avi|mkv)$/i.test(x.name || ''); });
+      if (files.length < antes) toast((antes - files.length) + ' archivo(s) no son fotos ni videos: no se suben.');
       if (files.length) FQ.agregar(files, { tipo: 'foto', obra: o.carpeta, sub: F.sub, fecha: F.fecha }, o.nombre || o.codigo);
     };
   });
@@ -2092,15 +2237,18 @@ function abrirAdjunto(a) {
     var bin = atob(r.b64), arr = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
     var url = URL.createObjectURL(new Blob([arr], { type: r.tipo || 'application/octet-stream' }));
-    abrirVisor(r.nombre, url, r.tipo);
+    abrirVisor(r.nombre, url, r.tipo, r.url);
   });
 }
 /* Visor encima de la tarea: imágenes adentro; el resto se descarga / abre con el visor del celular. */
-function abrirVisor(nombreArch, url, tipo) {
+function abrirVisor(nombreArch, url, tipo, drive) {
+  // En Android los links "blob:" no se pueden descargar (Galaxy A2): ahí se abre desde el Drive (link https).
+  var android = /Android/i.test(navigator.userAgent);
   var v = document.createElement('div');
   v.style.cssText = 'position:fixed;inset:0;z-index:80;background:#000d;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px';
   v.innerHTML = (/^image\//.test(tipo) || /^data:image/.test(url) ? '<img src="' + url + '" style="max-width:100%;max-height:75vh;border-radius:10px">' : '<div style="color:#fff;font-weight:700;text-align:center">' + esc(nombreArch) + '</div>') +
-    '<div class="acts"><a class="btn" href="' + url + '" download="' + esc(nombreArch) + '" target="_blank">' + ic('ext', 14) + 'Abrir / descargar</a><button class="btn">Cerrar</button></div>';
+    '<div class="acts">' + (drive ? '<a class="btn" href="' + esc(drive) + '" target="_blank" rel="noopener">' + ic('drive', 14) + 'Abrir en Drive</a>' : '') +
+    (!android || !drive ? '<a class="btn" href="' + url + '" download="' + esc(nombreArch) + '" target="_blank">' + ic('ext', 14) + 'Abrir / descargar</a>' : '') + '<button class="btn">Cerrar</button></div>';
   v.querySelector('button').onclick = function () { v.remove(); };
   document.body.appendChild(v);
 }
@@ -2603,7 +2751,9 @@ function modalClave() {
         var d = document.createElement('div');
         d.className = 'task rg-nota';
         var delCliente = tipo === 'interno' && n.registro === 'cliente';
-        d.innerHTML = '<div class="tx"><div class="tt">' + esc(n.fecha) + ' · ' + esc(n.autor) + (delCliente ? ' <span class="chip t-blue" style="font-size:10px">del cliente</span>' : '') + '</div><div class="tm">' + esc(n.transcripcion || '') + '</div></div><span class="chip plain">' + total + ' ítems</span>';
+        d.innerHTML = '<div class="tx"><div class="tt">' + esc(n.fecha) + ' · ' + esc(n.autor) + (delCliente ? ' <span class="chip t-blue" style="font-size:10px">del cliente</span>' : '') + '</div><div class="tm">' + esc(n.transcripcion || '') + '</div></div><span class="chip plain">' + total + ' ítems</span>' +
+          '<button type="button" class="del" title="Borrar nota" aria-label="Borrar nota">' + ic('trash', 16) + '</button>';
+        d.querySelector('.del').onclick = function (ev) { ev.stopPropagation(); borrarNota(o, n, this); };
         d.onclick = function () { editorNota(o, n, $('rgEditor'), n.fecha + ' · ' + n.autor); $('rgEditor').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
         $('rgNotas').appendChild(d);
       });
@@ -2614,10 +2764,11 @@ function modalClave() {
     if (!cont) return;
     cont.innerHTML = '<div class="rg-ed"><div class="eyebrow">' + esc(titulo) + '</div><div class="secs"></div>' +
       '<h3>Texto original <span style="text-transform:none;letter-spacing:0;font-weight:500;color:var(--muted)">(lo que dijiste o escribiste; se puede corregir)</span></h3><textarea class="orig" rows="3">' + esc(nota.transcripcion || '') + '</textarea>' +
-      '<p class="acts" style="margin-top:14px"><button class="btn dark" type="button">Guardar cambios</button></p><div class="est"></div></div>';
+      '<p class="acts" style="margin-top:14px"><button class="btn dark" type="button">Guardar cambios</button><button class="btn rg-borrar" type="button">' + ic('trash', 14) + 'Borrar nota</button></p><div class="est"></div></div>';
     var leer = editorItems(cont.querySelector('.secs'), SECC, nota.secciones);
     var orig = cont.querySelector('.orig'); ajustar(orig);
     var b = cont.querySelector('.btn.dark');
+    cont.querySelector('.rg-borrar').onclick = function () { borrarNota(o, nota, this, cont); };
     b.onclick = function () {
       var datos = leer();
       b.disabled = true; b.textContent = 'Guardando…';
@@ -2628,6 +2779,19 @@ function modalClave() {
       }, function (e) { cont.querySelector('.est').innerHTML = '<div class="rg-msg err">No se pudo guardar: ' + errTxt(e) + '</div>'; })
         .then(function () { b.disabled = false; b.textContent = 'Guardar cambios'; });
     };
+  }
+
+  /* Borrar una nota ya subida (cualquiera puede, con confirmación). Sale de los registros; el doc CITAS no se toca. */
+  function borrarNota(o, nota, b, editor) {
+    if (b.disabled) return;
+    if (!window.confirm('¿Borrar esta nota de ' + (nota.autor || '') + ' (' + (nota.fecha || '') + ')?\nDeja de salir en los registros. No se puede deshacer.')) return;
+    b.disabled = true;
+    call('borrarNota', o.carpeta, nota.id).then(function () {
+      toast('Nota borrada.');
+      if (editor) editor.innerHTML = '';
+      if ($('rgEditor') && $('rgEditor').innerHTML && $('rgEditor') !== editor) pon('rgEditor', '');
+      cargarSemana(o);
+    }, function (e) { b.disabled = false; toast('No se pudo borrar: ' + e.message); });
   }
 
   async function nuevaNota(o, blob, nombre, recId, autorNota) {
